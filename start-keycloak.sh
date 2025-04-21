@@ -1,7 +1,7 @@
 #!/bin/bash
 
-docker run -p 8080:8080 \
-  -e KC_BOOTSTRAP_ADMIN_USERNAME=admin \
-  -e KC_BOOTSTRAP_ADMIN_PASSWORD=kaal@123 \
-  quay.io/keycloak/keycloak:26.2.0 \
-  start-dev
+# Set default port if not provided by Render
+PORT=${PORT:-8080}
+
+# Start Keycloak in development mode using environment variables
+/opt/keycloak/bin/kc.sh start-dev --http-port=$PORT
