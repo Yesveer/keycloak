@@ -7,5 +7,8 @@ RUN apk add --no-cache bash
 # Copy the start script
 COPY start-keycloak.sh /start-keycloak.sh
 
+# Make the script executable
+RUN chmod +x /start-keycloak.sh
+
 # Set the entrypoint
 ENTRYPOINT ["/start-keycloak.sh"]
