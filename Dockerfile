@@ -1,10 +1,10 @@
 FROM quay.io/keycloak/keycloak:26.2.0
 
-# Copy start script
-COPY start-keycloak.sh /start-keycloak.sh
-RUN chmod +x /start-keycloak.sh
+# Copy start script to a writable location
+COPY start-keycloak.sh /opt/keycloak/start-keycloak.sh
 
-# Expose the dynamic Render port
+# No need to chmod — the script will already have the right permissions
+# Set required environment variables
 ENV PORT=8080
 ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
@@ -14,5 +14,5 @@ ENV KC_HTTP_PORT=$PORT
 
 EXPOSE $PORT
 
-# Run the custom start script
-ENTRYPOINT ["/start-keycloak.sh"]
+# Use the script as entrypoint
+ENTRYPOINT ["/opt/keycloak/start-keycloak.sh"]
