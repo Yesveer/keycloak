@@ -1,14 +1,18 @@
-# Use a base image with Docker installed
-FROM docker:dind
+FROM quay.io/keycloak/keycloak:26.2.0
 
-# Install bash for easier scripting
-RUN apk add --no-cache bash
-
-# Copy the start script
+# Copy start script
 COPY start-keycloak.sh /start-keycloak.sh
-
-# Make the script executable
 RUN chmod +x /start-keycloak.sh
 
-# Set the entrypoint
+# Expose the dynamic Render port
+ENV PORT=8080
+ENV KC_HEALTH_ENABLED=true
+ENV KC_METRICS_ENABLED=true
+ENV KC_HOSTNAME_STRICT=false
+ENV KC_HOSTNAME_STRICT_HTTPS=false
+ENV KC_HTTP_PORT=$PORT
+
+EXPOSE $PORT
+
+# Run the custom start script
 ENTRYPOINT ["/start-keycloak.sh"]
