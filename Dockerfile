@@ -1,8 +1,12 @@
-FROM quay.io/keycloak/keycloak:26.2.0
+# Use the official Keycloak image
+FROM quay.io/keycloak/keycloak:26.2.1
 
-ENV KC_METRICS_ENABLED=true
-ENV JAVA_OPTS_APPEND="-Dkeycloak.profile=preview"
+# Set environment variables
+ENV KC_BOOTSTRAP_ADMIN_USERNAME=admin \
+    KC_BOOTSTRAP_ADMIN_PASSWORD=admin
 
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+# Expose the default Keycloak port
+EXPOSE 8080
 
-CMD ["start-dev", "--http-port=$PORT", "--http-host=0.0.0.0", "--hostname-strict=false", "--hostname-strict-https=false"]
+# Set the command to run Keycloak in development mode
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev"]
